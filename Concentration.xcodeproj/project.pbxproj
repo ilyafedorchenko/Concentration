@@ -12,6 +12,9 @@
 		E90F473321E142B00082A005 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E90F473121E142B00082A005 /* Main.storyboard */; };
 		E90F473521E142B20082A005 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E90F473421E142B20082A005 /* Assets.xcassets */; };
 		E90F473821E142B20082A005 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E90F473621E142B20082A005 /* LaunchScreen.storyboard */; };
+		E90F474021E144860082A005 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = E90F473F21E144860082A005 /* .gitignore */; };
+		E90F474221E165210082A005 /* Concentration.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90F474121E165210082A005 /* Concentration.swift */; };
+		E90F474421E165FB0082A005 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90F474321E165FB0082A005 /* Card.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +25,9 @@
 		E90F473421E142B20082A005 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E90F473721E142B20082A005 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E90F473921E142B20082A005 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E90F473F21E144860082A005 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		E90F474121E165210082A005 /* Concentration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Concentration.swift; sourceTree = "<group>"; };
+		E90F474321E165FB0082A005 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,12 +60,15 @@
 		E90F472C21E142B00082A005 /* Concentration */ = {
 			isa = PBXGroup;
 			children = (
+				E90F474121E165210082A005 /* Concentration.swift */,
+				E90F474321E165FB0082A005 /* Card.swift */,
 				E90F472D21E142B00082A005 /* AppDelegate.swift */,
 				E90F472F21E142B00082A005 /* ViewController.swift */,
 				E90F473121E142B00082A005 /* Main.storyboard */,
 				E90F473421E142B20082A005 /* Assets.xcassets */,
 				E90F473621E142B20082A005 /* LaunchScreen.storyboard */,
 				E90F473921E142B20082A005 /* Info.plist */,
+				E90F473F21E144860082A005 /* .gitignore */,
 			);
 			path = Concentration;
 			sourceTree = "<group>";
@@ -122,6 +131,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E90F474021E144860082A005 /* .gitignore in Resources */,
 				E90F473821E142B20082A005 /* LaunchScreen.storyboard in Resources */,
 				E90F473521E142B20082A005 /* Assets.xcassets in Resources */,
 				E90F473321E142B00082A005 /* Main.storyboard in Resources */,
@@ -137,6 +147,8 @@
 			files = (
 				E90F473021E142B00082A005 /* ViewController.swift in Sources */,
 				E90F472E21E142B00082A005 /* AppDelegate.swift in Sources */,
+				E90F474221E165210082A005 /* Concentration.swift in Sources */,
+				E90F474421E165FB0082A005 /* Card.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +295,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T4A5572G2V;
 				INFOPLIST_FILE = Concentration/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -300,6 +313,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T4A5572G2V;
 				INFOPLIST_FILE = Concentration/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
