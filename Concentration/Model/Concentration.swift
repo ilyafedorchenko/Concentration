@@ -14,6 +14,14 @@ class Concentration {
   
   var indexOfOneAndOnlyFaceUpCard: Int?
   
+  func startNewGame () {
+    for index in 0..<cards.count {
+      cards[index].isFaceUp = false
+      cards[index].isMatched = false
+    }
+    cards.shuffle()
+  }
+  
   func chooseCard(at index: Int) {
     if !cards[index].isMatched {
       if let matchIndex = indexOfOneAndOnlyFaceUpCard, matchIndex != index {

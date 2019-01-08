@@ -15,6 +15,7 @@
 		E90F474021E144860082A005 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = E90F473F21E144860082A005 /* .gitignore */; };
 		E90F474221E165210082A005 /* Concentration.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90F474121E165210082A005 /* Concentration.swift */; };
 		E90F474421E165FB0082A005 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90F474321E165FB0082A005 /* Card.swift */; };
+		E90F474621E406750082A005 /* CardVisualization.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90F474521E406750082A005 /* CardVisualization.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		E90F473F21E144860082A005 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		E90F474121E165210082A005 /* Concentration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Concentration.swift; sourceTree = "<group>"; };
 		E90F474321E165FB0082A005 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		E90F474521E406750082A005 /* CardVisualization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVisualization.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,17 +62,42 @@
 		E90F472C21E142B00082A005 /* Concentration */ = {
 			isa = PBXGroup;
 			children = (
-				E90F474121E165210082A005 /* Concentration.swift */,
-				E90F474321E165FB0082A005 /* Card.swift */,
-				E90F472D21E142B00082A005 /* AppDelegate.swift */,
-				E90F472F21E142B00082A005 /* ViewController.swift */,
-				E90F473121E142B00082A005 /* Main.storyboard */,
+				E90F474821E407940082A005 /* Model */,
+				E90F474721E4073F0082A005 /* Controller */,
+				E90F474921E407B30082A005 /* View */,
 				E90F473421E142B20082A005 /* Assets.xcassets */,
-				E90F473621E142B20082A005 /* LaunchScreen.storyboard */,
 				E90F473921E142B20082A005 /* Info.plist */,
 				E90F473F21E144860082A005 /* .gitignore */,
 			);
 			path = Concentration;
+			sourceTree = "<group>";
+		};
+		E90F474721E4073F0082A005 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				E90F472D21E142B00082A005 /* AppDelegate.swift */,
+				E90F472F21E142B00082A005 /* ViewController.swift */,
+				E90F474521E406750082A005 /* CardVisualization.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		E90F474821E407940082A005 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E90F474121E165210082A005 /* Concentration.swift */,
+				E90F474321E165FB0082A005 /* Card.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E90F474921E407B30082A005 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E90F473121E142B00082A005 /* Main.storyboard */,
+				E90F473621E142B20082A005 /* LaunchScreen.storyboard */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,6 +172,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E90F474621E406750082A005 /* CardVisualization.swift in Sources */,
 				E90F473021E142B00082A005 /* ViewController.swift in Sources */,
 				E90F472E21E142B00082A005 /* AppDelegate.swift in Sources */,
 				E90F474221E165210082A005 /* Concentration.swift in Sources */,

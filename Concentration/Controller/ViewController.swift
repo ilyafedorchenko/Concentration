@@ -11,6 +11,11 @@ import UIKit
 class ViewController: UIViewController {
   
   lazy var game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
+  var themeSet = ThemeSet() {
+    didSet {
+      themeLabel.text = "\(themeSet.themeName)"
+    }
+  }
   
   var flipCount = 0 {
     didSet {
@@ -20,6 +25,7 @@ class ViewController: UIViewController {
   @IBOutlet var cardButtons: [UIButton]!
   
   @IBOutlet weak var flipCountLabel: UILabel!
+  @IBOutlet weak var themeLabel: UILabel!
   
   @IBAction func touchCard(_ sender: UIButton) {
     flipCount += 1
@@ -29,7 +35,18 @@ class ViewController: UIViewController {
     } else {
       print("not in cardButtons")
     }
-    
+  }
+  
+  @IBAction func startNewGame(_ sender: UIButton) {
+    flipCount = 0
+    game.startNewGame()
+    themeSet = CardVisualization.getRandomThemeSet()
+    //FIXME: new theme buggy
+    updateViewFromModel()
+  }
+  
+  override func viewDidLoad() {
+    themeSet = CardVisualization.getRandomThemeSet()
   }
   
   func updateViewFromModel() {
@@ -48,16 +65,13 @@ class ViewController: UIViewController {
     }
   }
   
-  var emojiChoices = ["🦇","😱","🎃","👻", "🙀", "😈", "🍭", "🍬", "🍎"]
   var emoji = [Int:String]()
   
   func emoji (for card: Card) -> String {
-    if emoji[card.identifier] == nil, emojiChoices.count > 0 {
-      let randomIndex = Int(arc4random_uniform(UInt32(emojiChoices.count)))
-      emoji[card.identifier] = emojiChoices.remove(at: randomIndex)
+    if emoji[card.identifier] == nil, themeSet.cardTitleChoices.count > 0 {
+      let randomIndex = Int(arc4random_uniform(UInt32(themeSet.cardTitleChoices.count)))
+      emoji[card.identifier] = themeSet.cardTitleChoices.remove(at: randomIndex)
     }
     return emoji[card.identifier] ?? "?"
   }
-  
 }
-
