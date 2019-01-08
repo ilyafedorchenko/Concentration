@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController {
   
   lazy var game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
-  var themeSet = ThemeSet() {
+  var themeSet = CardVisualization() {
     didSet {
       themeLabel.text = "\(themeSet.themeName)"
     }
@@ -22,8 +22,8 @@ class ViewController: UIViewController {
       flipCountLabel.text = "Flips: \(flipCount)"
     }
   }
-  @IBOutlet var cardButtons: [UIButton]!
   
+  @IBOutlet var cardButtons: [UIButton]!
   @IBOutlet weak var flipCountLabel: UILabel!
   @IBOutlet weak var themeLabel: UILabel!
   
@@ -40,13 +40,14 @@ class ViewController: UIViewController {
   @IBAction func startNewGame(_ sender: UIButton) {
     flipCount = 0
     game.startNewGame()
-    themeSet = CardVisualization.getRandomThemeSet()
-    //FIXME: new theme buggy
+    emoji.removeAll()
+    themeSet.themeSetRandomlySwitched()
     updateViewFromModel()
+    
   }
   
   override func viewDidLoad() {
-    themeSet = CardVisualization.getRandomThemeSet()
+    themeSet.themeSetRandomlySwitched()
   }
   
   func updateViewFromModel() {
@@ -68,9 +69,9 @@ class ViewController: UIViewController {
   var emoji = [Int:String]()
   
   func emoji (for card: Card) -> String {
-    if emoji[card.identifier] == nil, themeSet.cardTitleChoices.count > 0 {
-      let randomIndex = Int(arc4random_uniform(UInt32(themeSet.cardTitleChoices.count)))
-      emoji[card.identifier] = themeSet.cardTitleChoices.remove(at: randomIndex)
+    if emoji[card.identifier] == nil, themeSet.themeCollection.count > 0 {
+      let randomIndex = Int(arc4random_uniform(UInt32(themeSet.themeCollection.count)))
+      emoji[card.identifier] = themeSet.themeCollection.remove(at: randomIndex)
     }
     return emoji[card.identifier] ?? "?"
   }
