@@ -26,6 +26,7 @@ class ViewController: UIViewController {
   @IBOutlet var cardButtons: [UIButton]!
   @IBOutlet weak var flipCountLabel: UILabel!
   @IBOutlet weak var themeLabel: UILabel!
+  @IBOutlet weak var scoreLabel: UILabel!
   
   @IBAction func touchCard(_ sender: UIButton) {
     flipCount += 1
@@ -64,6 +65,7 @@ class ViewController: UIViewController {
         button.backgroundColor = card.isMatched ? UIColor.clear : #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
       }
     }
+    scoreLabel.text = "Score: \(game.score)"
   }
   
   var emoji = [Int:String]()

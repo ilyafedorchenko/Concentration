@@ -14,11 +14,18 @@ struct CardVisualization {
   var themeCollection = [String]()
   
   private let numberOfEmoji = 9
-  private let themeNames = ["Helloween", "Animals", "Sports", "Faces", "Food", "Entertainment", "Helloween", "Animals", "Sports", "Faces", "Food", "Entertainment"]
+  private let themeSets = [
+    "Helloween":["🦇","😱","🎃","👻", "🙀", "😈", "🍭", "🍬", "🍎"],
+    "Animals":[0x1F42D],
+    "Sports":[0x1F3C9],
+    "Faces":[0x1F600],
+    "Food":[0x1F354],
+    "Entertainment":[0x1F39E]
+  ]
   
-  private func createEmojiRanges(total numberOfEmoji: Int, minOfRange: Int) -> [String] {
+  private func createEmojiCollection(total numberOfEmoji: Int, minHexOfEmojiRange: Int) -> [String] {
     var themeChars = [String]()
-    for unicodeChar in minOfRange...minOfRange + numberOfEmoji {
+    for unicodeChar in minHexOfEmojiRange...minHexOfEmojiRange + numberOfEmoji {
       themeChars.append(String(Unicode.Scalar(unicodeChar)!))
     }
     return themeChars
@@ -26,29 +33,22 @@ struct CardVisualization {
   
   mutating func themeSetRandomlySwitched() {
     
-    let randomUpperbound = UInt32(themeNames.count)
+    let upperboundForRandomIndex = UInt32(themeSets.count)
+    let randomIndex = Int(arc4random_uniform(upperboundForRandomIndex))
+    
     var newThemeName = ""
+    let themeNames = Array(themeSets.keys)
+    
     repeat {
-      newThemeName = themeNames[Int(arc4random_uniform(randomUpperbound))]
+      newThemeName = themeNames[randomIndex]
     } while newThemeName == themeName
     themeName = newThemeName
     
-    switch themeName {
-    case "Helloween":
-      themeCollection = ["🦇","😱","🎃","👻", "🙀", "😈", "🍭", "🍬", "🍎"]
-    case "Animals":
-      themeCollection = createEmojiRanges(total: numberOfEmoji, minOfRange: 0x1F42D)
-    case "Sports":
-      themeCollection = createEmojiRanges(total: numberOfEmoji, minOfRange: 0x1F3C9)
-    case "Faces":
-      themeCollection = createEmojiRanges(total: numberOfEmoji, minOfRange: 0x1F600)
-    case "Food":
-      themeCollection = createEmojiRanges(total: numberOfEmoji, minOfRange: 0x1F354)
-    case "Entertainment":
-      themeCollection = createEmojiRanges(total: numberOfEmoji, minOfRange: 0x1F39E)
-    default:
-      print("Check switch in emojiRange variable")
-      break
+    if let themeCollection = themeSets[themeName] as? [String] {
+      self.themeCollection = themeCollection
+    } else {
+      let hexOfEmoji = themeSets[themeName] as! [Int]
+      self.themeCollection = createEmojiCollection(total: numberOfEmoji, minHexOfEmojiRange: hexOfEmoji.first!)
     }
   }
 }
