@@ -36,13 +36,9 @@ struct CardVisualization {
     let upperboundForRandomIndex = UInt32(themeSets.count)
     let randomIndex = Int(arc4random_uniform(upperboundForRandomIndex))
     
-    var newThemeName = ""
     let themeNames = Array(themeSets.keys)
-    
-    repeat {
-      newThemeName = themeNames[randomIndex]
-    } while newThemeName == themeName
-    themeName = newThemeName
+      themeName = themeNames[randomIndex]
+
     
     if let themeCollection = themeSets[themeName] as? [String] {
       self.themeCollection = themeCollection

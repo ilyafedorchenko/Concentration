@@ -10,12 +10,9 @@ import Foundation
 
 class Concentration {
   
-  var cards = [Card]() {
-    didSet {
-      updateViewedCards()
-    }
-  }
+  var cards = [Card]()
   var score = 0
+  var flipCount = 0
   private var indexOfOneAndOnlyFaceUpCard: Int?
   private var viewedCards: Set<Int> = []
   
@@ -25,6 +22,7 @@ class Concentration {
       cards[index].isMatched = false
     }
     viewedCards.removeAll()
+    score = 0
     cards.shuffle()
   }
   
@@ -36,11 +34,13 @@ class Concentration {
     }
   }
   
-  private func scoreCount(matchSucceed: Bool, mismatchIndexes: (Int, Int)?) {
-    if !viewedCards.isEmpty {
-      
-      //TODO: finish this function
-      
+  private func penaltyCount(mismatchIndexes: (Int, Int)?) {
+    if let mismatchIndexes = mismatchIndexes {
+      let mismatchSet: Set<Int> = [mismatchIndexes.0, mismatchIndexes.1]
+      let penaltyMultiplier = viewedCards.intersection(mismatchSet).count
+      score +=  penaltyMultiplier * (-1)
+    } else {
+      score += 2
     }
   }
   
@@ -50,16 +50,19 @@ class Concentration {
         if cards[matchIndex].identifier == cards[index].identifier {
           cards[matchIndex].isMatched = true
           cards[index].isMatched = true
-          scoreCount(matchSucceed: true, mismatchIndexes: nil)
+          penaltyCount(mismatchIndexes: nil)
+        } else {
+          penaltyCount(mismatchIndexes: (cards[index].identifier, cards[matchIndex].identifier))
         }
         cards[index].isFaceUp = true
         indexOfOneAndOnlyFaceUpCard = nil
-        scoreCount(matchSucceed: false, mismatchIndexes: (index, matchIndex))
+        updateViewedCards()
       } else {
         for flipDownIndex in cards.indices {
           cards[flipDownIndex].isFaceUp = false
         }
         cards[index].isFaceUp = true
+        flipCount += 1
         indexOfOneAndOnlyFaceUpCard = index
       }
     }
