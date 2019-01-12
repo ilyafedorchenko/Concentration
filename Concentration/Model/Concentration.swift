@@ -8,15 +8,26 @@
 
 import Foundation
 
-class Concentration {
+struct Concentration {
   
-  var cards = [Card]()
+  private(set) var cards = [Card]()
+  
   var score = 0
   var flipCount = 0
-  private var indexOfOneAndOnlyFaceUpCard: Int?
-  private var viewedCards: Set<Int> = []
+  private var indexOfOneAndOnlyFaceUpCard: Int? {
+    get {
+      return cards.indices.filter({cards[$0].isFaceUp}).oneAndOnly
+    }
+    set {
+      for index in cards.indices {
+        cards[index].isFaceUp = (index == newValue)
+      }
+    }
+  }
   
-  func startNewGame () {
+  private var viewedCards: Set<Card> = []
+  
+  mutating func startNewGame () {
     for index in 0..<cards.count {
       cards[index].isFaceUp = false
       cards[index].isMatched = false
@@ -26,42 +37,38 @@ class Concentration {
     cards.shuffle()
   }
   
-  private func updateViewedCards() {
+  mutating private func updateViewedCards() {
     for card in cards {
       if card.isFaceUp {
-        viewedCards.insert(card.identifier)
+        viewedCards.insert(card)
       }
     }
   }
   
-  private func penaltyCount(mismatchIndexes: (Int, Int)?) {
+  private mutating func penaltyCount(mismatchIndexes: (Card, Card)?) {
     if let mismatchIndexes = mismatchIndexes {
-      let mismatchSet: Set<Int> = [mismatchIndexes.0, mismatchIndexes.1]
+      let mismatchSet: Set<Card> = [mismatchIndexes.0, mismatchIndexes.1]
       let penaltyMultiplier = viewedCards.intersection(mismatchSet).count
-      score +=  penaltyMultiplier * (-1)
+      score +=  -penaltyMultiplier
     } else {
       score += 2
     }
   }
   
-  func chooseCard(at index: Int) {
+  mutating func chooseCard(at index: Int) {
+    assert(cards.indices.contains(index), "Concentration.chooseCard(at:\(index)): chosen index no in the cards")
     if !cards[index].isMatched {
       if let matchIndex = indexOfOneAndOnlyFaceUpCard, matchIndex != index {
-        if cards[matchIndex].identifier == cards[index].identifier {
+        if cards[matchIndex] == cards[index] {
           cards[matchIndex].isMatched = true
           cards[index].isMatched = true
           penaltyCount(mismatchIndexes: nil)
         } else {
-          penaltyCount(mismatchIndexes: (cards[index].identifier, cards[matchIndex].identifier))
+          penaltyCount(mismatchIndexes: (cards[index], cards[matchIndex]))
         }
         cards[index].isFaceUp = true
-        indexOfOneAndOnlyFaceUpCard = nil
         updateViewedCards()
       } else {
-        for flipDownIndex in cards.indices {
-          cards[flipDownIndex].isFaceUp = false
-        }
-        cards[index].isFaceUp = true
         flipCount += 1
         indexOfOneAndOnlyFaceUpCard = index
       }
@@ -69,10 +76,17 @@ class Concentration {
   }
   
   init(numberOfPairsOfCards: Int) {
+    assert(numberOfPairsOfCards > 0, "Concentration.init(at:\(numberOfPairsOfCards)): you must have at least one pair of cards")
     for _ in 0..<numberOfPairsOfCards {
       let card = Card()
       cards += [card,card]
     }
     cards.shuffle()
+  }
+}
+
+extension Collection {
+  var oneAndOnly: Element? {
+    return count == 1 ? first : nil
   }
 }

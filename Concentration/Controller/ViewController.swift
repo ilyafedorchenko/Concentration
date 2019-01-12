@@ -10,7 +10,11 @@ import UIKit
 
 class ViewController: UIViewController {
   
-  lazy var game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
+  private lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
+  
+  var numberOfPairsOfCards: Int {
+    return (cardButtons.count + 1) / 2
+  }
   var themeSet = CardVisualization() {
     didSet {
       themeLabel.text = "\(themeSet.themeName)"
@@ -19,12 +23,16 @@ class ViewController: UIViewController {
   
   var flipCount = 0
   
-  @IBOutlet var cardButtons: [UIButton]!
-  @IBOutlet weak var flipCountLabel: UILabel!
-  @IBOutlet weak var themeLabel: UILabel!
-  @IBOutlet weak var scoreLabel: UILabel!
+  @IBOutlet private var cardButtons: [UIButton]!
+  @IBOutlet private weak var flipCountLabel: UILabel! {
+    didSet {
+      updateFlipCountLabel()
+    }
+  }
+  @IBOutlet private weak var themeLabel: UILabel!
+  @IBOutlet private weak var scoreLabel: UILabel!
   
-  @IBAction func touchCard(_ sender: UIButton) {
+  @IBAction private func touchCard(_ sender: UIButton) {
     if let cardNumber = cardButtons.firstIndex(of: sender) {
       game.chooseCard(at: cardNumber)
       updateViewFromModel()
@@ -33,7 +41,7 @@ class ViewController: UIViewController {
     }
   }
   
-  @IBAction func startNewGame(_ sender: UIButton) {
+  @IBAction private func startNewGame(_ sender: UIButton) {
     game.startNewGame()
     emoji.removeAll()
     themeSet.themeSetRandomlySwitched()
@@ -44,7 +52,16 @@ class ViewController: UIViewController {
     themeSet.themeSetRandomlySwitched()
   }
   
-  func updateViewFromModel() {
+  private func updateFlipCountLabel() {
+    let attributes: [NSAttributedString.Key:Any] = [
+      NSAttributedString.Key.strokeWidth : 5.0,
+      NSAttributedString.Key.strokeColor : #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1),
+      ]
+    let attributedString = NSAttributedString(string: "Flips: \(game.flipCount)", attributes: attributes)
+    flipCountLabel.attributedText = attributedString
+  }
+  
+  private func updateViewFromModel() {
     for index in cardButtons.indices {
       
       let button = cardButtons[index]
@@ -59,16 +76,27 @@ class ViewController: UIViewController {
       }
     }
     scoreLabel.text = "Score: \(game.score)"
-    flipCountLabel.text = "Flips: \(game.flipCount)"
+    updateFlipCountLabel()
   }
   
-  var emoji = [Int:String]()
+  private var emoji = [Card:String]()
   
-  func emoji (for card: Card) -> String {
-    if emoji[card.identifier] == nil, themeSet.themeCollection.count > 0 {
-      let randomIndex = Int(arc4random_uniform(UInt32(themeSet.themeCollection.count)))
-      emoji[card.identifier] = themeSet.themeCollection.remove(at: randomIndex)
+  private func emoji (for card: Card) -> String {
+    if emoji[card] == nil, themeSet.themeCollection.count > 0 {
+      emoji[card] = themeSet.themeCollection.remove(at: themeSet.themeCollection.count.arc4random)
     }
-    return emoji[card.identifier] ?? "?"
+    return emoji[card] ?? "?"
+  }
+}
+
+extension Int {
+  var arc4random: Int {
+    if self > 0 {
+      return Int(arc4random_uniform(UInt32(self)))
+    } else if self < 0 {
+      return -Int(arc4random_uniform(UInt32(abs(self))))
+    } else {
+      return 0
+    }
   }
 }

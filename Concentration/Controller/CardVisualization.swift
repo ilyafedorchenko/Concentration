@@ -33,11 +33,11 @@ struct CardVisualization {
   
   mutating func themeSetRandomlySwitched() {
     
-    let upperboundForRandomIndex = UInt32(themeSets.count)
-    let randomIndex = Int(arc4random_uniform(upperboundForRandomIndex))
+//    let upperboundForRandomIndex = UInt32(themeSets.count)
+//    let randomIndex = Int(arc4random_uniform(upperboundForRandomIndex))
     
     let themeNames = Array(themeSets.keys)
-      themeName = themeNames[randomIndex]
+      themeName = themeNames[themeSets.count.arc4random]
 
     
     if let themeCollection = themeSets[themeName] as? [String] {
